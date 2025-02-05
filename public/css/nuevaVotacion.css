@@ -1,0 +1,67 @@
+/* Contenedor de opciones */
+.opciones-votacion {
+    display: flex;
+    justify-content: space-around;
+    margin: 30px 0;
+    flex-wrap: wrap;
+    align-items: stretch;
+    /* Para que todas las tarjetas tengan la misma altura */
+}
+
+.opcion {
+    display: flex;
+    /* Se activa el flexbox */
+    flex-direction: column;
+    /* Organiza el contenido verticalmente */
+    flex: 1;
+    min-width: 250px;
+    margin: 10px;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.opcion h3 {
+    margin-top: 0;
+}
+
+.opcion p {
+    color: #666;
+}
+
+.opcion button {
+    margin-top: auto;
+    /* Empuja el botón al final del contenedor */
+    background-color: #00C389;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.opcion button:hover {
+    background-color: #009973;
+}
+
+/* Información adicional */
+.info-diferencias {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Adaptabilidad para móviles */
+@media (max-width: 480px) {
+    .opciones-votacion {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .opcion {
+        width: 90%;
+    }
+}

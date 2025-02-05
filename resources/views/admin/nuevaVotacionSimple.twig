@@ -1,0 +1,24 @@
+{# nuevaVotacionSimple.twig #}
+{% extends "base.twig" %}
+
+{% block title %}Nueva Votación Simple{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ domain }}/css/nuevaVotacionSimple.css">
+{% endblock %}
+
+{% block content %}
+    <h2>Nueva Votación Simple</h2>
+    <p>
+        Se ha generado el par de claves para esta votación. La clave pública se ha subido al servidor y quedará almacenada de forma segura.
+    </p>
+    <p>
+        <strong>IMPORTANTE:</strong> Descargue y guarde la clave privada en un dispositivo externo (por ejemplo, un pendrive). Si pierde este archivo, no se podrán decodificar los votos al final del proceso.
+    </p>
+    <button id="saveButton">Guardar clave privada</button>
+    <button id="continueButton" disabled>Continuar al panel de votación</button>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ domain }}/js/nuevaVotacionSimple.js"></script>
+{% endblock %}

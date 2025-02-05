@@ -1,0 +1,43 @@
+{% extends "base.twig" %}
+
+{% block title %}Login Administrador{% endblock %}
+
+{% block content %}
+    <div class="info">
+        <h2>Acceso Administrador</h2>
+        <p>Ingresa la contraseña para acceder al panel de administración.</p>
+        <p>Todo intento de inicio de sesión queda registrado en el sistema (IP, dispositivo, etc.).</p>
+        <p>Si olvidaste la contraseña, contacta con el administrador del sistema.</p>
+    </div>
+    <form id="loginForm">
+        <input type="password" id="password" placeholder="Introduce la contraseña" required>
+        <button type="submit">Ingresar</button>
+        <p id="error-message" style="display: none; color: red;">Contraseña incorrecta. Se ha registrado su intento.</p>
+    </form>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            let password = document.getElementById('password').value;
+
+            try {
+                let response = await fetch('{{domain}}/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password })
+                });
+                
+                let data = await response.json();
+                if (response.ok && data.success) {
+                    window.location.href = '{{domain}}/admin/';
+                } else {
+                    document.getElementById('error-message').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error en la solicitud:', error);
+            }
+        });
+    </script>
+{% endblock %}

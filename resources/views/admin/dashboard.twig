@@ -1,0 +1,42 @@
+{% extends "base.twig" %}
+
+{% block title %}Menú Administrador{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{domain}}/css/dashboard.css">
+{% endblock %}
+
+{% block content %}
+    <h2>Menú Principal</h2>
+    <nav class="admin-menu">
+        <a href="{{domain}}/admin/votacion/nueva" class="btn nueva-votacion">Nueva votación</a>
+    </nav>
+
+    <section class="votaciones">
+        <h3>Listado de votaciones</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Fecha inicio</th>
+                    <th>Fecha fin</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for votacion in votaciones %}
+                <tr onclick="window.location.href='{{domain}}/admin/{{ votacion.id }}/panel'">
+                    <td>{{ votacion.nombre }}</td>
+                    <td>{{ votacion.fecha_inicio|date('d/m/Y') }}</td>
+                    <td>{{ votacion.fecha_fin|date('d/m/Y') }}</td>
+                    <td>{{ votacion.estado }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4">No hay votaciones registradas</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}

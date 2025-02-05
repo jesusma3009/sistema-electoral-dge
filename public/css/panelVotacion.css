@@ -1,0 +1,273 @@
+.votacion-manager {
+    display: flex;
+    flex-direction: row;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Menú lateral (izquierda) */
+.menu {
+    width: 20%;
+    background: #f4f4f4;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu ul li {
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.menu ul li:hover,
+.menu ul li.active {
+    background-color: #00C389;
+    color: #fff;
+}
+
+/* Paneles para cada pestaña (derecha) */
+.tab-panels {
+    width: 80%;
+    padding: 20px;
+}
+
+.panel-panel {
+    display: none;
+}
+
+.panel-panel.active {
+    display: block;
+}
+
+/* Layout del panel de votación */
+.voting-main {
+    display: flex;
+    flex-direction: row;
+}
+
+.voting-central {
+    flex: 2;
+    padding-right: 20px;
+    border-right: 1px solid #ddd;
+}
+
+.votacion-note {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.votacion-note input,
+.votacion-note textarea {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.candidates-checklist h3 {
+    margin-bottom: 10px;
+}
+
+.candidates-checklist ul {
+    list-style: none;
+    padding: 0;
+}
+
+.candidates-checklist li {
+    margin-bottom: 10px;
+}
+
+.candidates-checklist button {
+    background-color: #00C389;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.candidates-checklist button:hover {
+    background-color: #009973;
+}
+.candidate-handle {
+    cursor: move;
+    margin-right: 8px;
+    color: #888;
+}
+
+
+.removeCandidate {
+    display: inline-block;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 1rem;
+    color: #d00;
+}
+
+.removeCandidate:hover {
+    color: #a00;
+}
+
+.candidate-name {
+    outline: none;
+}
+
+.votacion-options {
+    flex: 1;
+    padding-left: 20px;
+}
+
+.votacion-options .option {
+    margin-bottom: 15px;
+}
+
+.votacion-options button {
+    background-color: #00C389;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.votacion-options button:hover {
+    background-color: #009973;
+}
+
+/* Etiquetas y botones en el panel de Censo */
+.panel-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+.panel-actions button {
+    background-color: #00C389;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.panel-actions button:hover {
+    background-color: #009973;
+}
+
+/* Reutilización de estilos para la tabla del censo */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table thead {
+    background-color: #f4f4f4;
+}
+
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Adaptabilidad para móviles */
+@media (max-width: 768px) {
+    .votacion-manager {
+        flex-direction: column;
+    }
+
+    .menu {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .tab-panels {
+        width: 100%;
+    }
+
+    .voting-main {
+        flex-direction: column;
+    }
+
+    .voting-central {
+        border-right: none;
+        padding-right: 0;
+    }
+
+    .votacion-options {
+        padding-left: 0;
+        margin-top: 20px;
+    }
+}
+
+/* Contenedor del panel de votación */
+.container {
+    width: 95%;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+[contenteditable="true"] {
+    padding: 4px;
+    border: 1px dashed transparent;
+    border-radius: 4px;
+    transition: border-color 0.2s;
+}
+
+[contenteditable="true"]:focus {
+    border-color: #00C389;
+    outline: none;
+}
+
+.votacion-note [contenteditable]:empty:before {
+    content: attr(data-placeholder);
+    color: #aaa;
+    pointer-events: none;
+    display: block;
+}
+
+/* Placeholder para áreas editables */
+[contenteditable="true"]:empty::before {
+    content: attr(data-placeholder);
+    color: #ccc;
+    pointer-events: none;
+    display: block;
+}
+
+/* Centrando la descripción  */
+#votacionDescription {
+    text-align: center;
+}

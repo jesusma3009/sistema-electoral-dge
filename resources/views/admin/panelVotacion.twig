@@ -1,0 +1,98 @@
+{% extends "base.twig" %}
+{% block title %}Panel de Votación{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{{ domain }}/css/panelVotacion.css">
+{% endblock %}
+{% block content %}
+<div class="votacion-manager js-data" data-domain="{{ domain }}" data-votacion-id="{{ votacion.id }}">
+  <!-- Menú lateral (izquierda) -->
+  <aside class="menu">
+    <ul>
+      <li data-tab="votacion" class="active">Votación</li>
+      <li data-tab="censo">Censo</li>
+    </ul>
+  </aside>
+  <!-- Contenido principal según pestaña (derecha) -->
+  <section class="tab-panels">
+    <!-- Panel de Votación -->
+    <div id="votacion" class="panel-panel active">
+      <div class="voting-main">
+        <!-- Zona central con la "nota" y checklist de candidatos -->
+        <div class="voting-central">
+          <div class="votacion-note">
+            <!-- Título y descripción editables -->
+            <h2 id="votacionTitle" contenteditable="true" data-placeholder="Título de la votación">{{ votacion.nombre|default('')|trim }}</h2>
+            <p id="votacionDescription" contenteditable="true" data-placeholder="Descripción de la votación">{{ votacion.descripcion|default('')|trim }}</p>
+          </div>
+          <div class="candidates-checklist">
+            <h3>Candidatos</h3>
+            <ul>
+              {% for candidato in candidatos %}
+              <li data-candidate-id="{{ candidato.id }}" draggable="true">
+                <span class="candidate-handle" title="Arrastra para reordenar">&#9776;</span>
+                <span class="candidate-name" contenteditable="true" data-candidate-id="{{ candidato.id }}">{{ candidato.nombre }}</span>
+                <div class="removeCandidate" data-candidate-id="{{ candidato.id }}" title="Eliminar candidato">🗑️</div>
+              </li>
+              {% endfor %}
+            </ul>
+            <button id="addCandidateButton">Añadir Candidato</button>
+          </div>
+        </div>
+        <!-- Opciones de votación (lado derecho) -->
+        <aside class="votacion-options">
+          <h3>Opciones de Votación</h3>
+          <div class="option">
+            <input type="checkbox" id="votoNulo" name="votoNulo" {% if votacion.votoNulo %}checked{% endif %}>
+            <label for="votoNulo">Permitir voto nulo</label>
+          </div>
+          <div class="option">
+            <input type="checkbox" id="votoBlanco" name="votoBlanco" {% if votacion.votoBlanco %}checked{% endif %}>
+            <label for="votoBlanco">Permitir voto en blanco</label>
+          </div>
+          <div class="option">
+            <label for="fecha_fin">Fecha fin</label>
+            <!-- Se usa datetime-local para permitir hora -->
+            <input type="datetime-local" id="fecha_fin" name="fecha_fin" 
+              value="{{ votacion.fecha_fin ? votacion.fecha_fin|date('Y-m-d\\TH:i') : '' }}">
+          </div>
+          <button id="saveVotacionConfig">Guardar Configuración</button>
+        </aside>
+      </div>
+    </div>
+    <!-- Panel de Censo -->
+    <div id="censo" class="panel-panel">
+      <h2>Censo</h2>
+      <div class="panel-actions">
+        <button id="importCsvButton">Importar CSV</button>
+        <button id="addVoterButton">Agregar Persona</button>
+      </div>
+      <table id="censoTable">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Correo electrónico</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for voter in censo %}
+          <tr data-voter-id="{{ voter.id }}">
+            <td>{{ voter.nombre }}</td>
+            <td>{{ voter.apellidos }}</td>
+            <td>{{ voter.email }}</td>
+            <td>
+              <button class="editVoterButton" data-voter-id="{{ voter.id }}">Editar</button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ domain }}/js/panelVotacion.js"></script>
+<script src="{{ domain }}/js/sweetalert2.js"></script>
+{% endblock %}

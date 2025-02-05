@@ -1,0 +1,55 @@
+/* nuevaVotacionSimple.css */
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 20px;
+    color: #333;
+}
+
+p {
+    text-align: center;
+    margin: 10px 20px;
+    font-size: 16px;
+    color: #555;
+}
+
+button {
+    display: block;
+    margin: 20px auto;
+    background-color: #00C389;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover:not(:disabled) {
+    background-color: #009973;
+}
+
+button:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+}
+
+/* Adaptabilidad para móviles */
+@media (max-width: 480px) {
+    p {
+        font-size: 14px;
+    }
+
+    button {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+}

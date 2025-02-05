@@ -1,0 +1,113 @@
+/* Menú de acciones */
+.admin-menu {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.btn.nueva-votacion {
+    display: inline-block;
+    background-color: #00C389;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.btn.nueva-votacion:hover {
+    background-color: #009973;
+}
+
+/* Tabla de votaciones */
+.votaciones table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.votaciones th,
+.votaciones td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.votaciones th {
+    background-color: #00C389;
+    color: white;
+}
+
+.votaciones tr {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.votaciones tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Adaptabilidad para dispositivos móviles */
+@media (max-width: 480px) {
+
+    .votaciones table,
+    .votaciones thead,
+    .votaciones tbody,
+    .votaciones th,
+    .votaciones td,
+    .votaciones tr {
+        display: block;
+    }
+
+    .votaciones tr {
+        margin-bottom: 15px;
+    }
+
+    .votaciones th,
+    .votaciones td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+    }
+
+    .votaciones th::before,
+    .votaciones td::before {
+        position: absolute;
+        left: 10px;
+        width: 45%;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+    }
+
+    .votaciones th:nth-of-type(1)::before {
+        content: "Nombre";
+    }
+
+    .votaciones th:nth-of-type(2)::before {
+        content: "Fecha inicio";
+    }
+
+    .votaciones th:nth-of-type(3)::before {
+        content: "Fecha fin";
+    }
+
+    .votaciones th:nth-of-type(4)::before {
+        content: "Estado";
+    }
+
+    .votaciones td:nth-of-type(1)::before {
+        content: "Nombre";
+    }
+
+    .votaciones td:nth-of-type(2)::before {
+        content: "Fecha inicio";
+    }
+
+    .votaciones td:nth-of-type(3)::before {
+        content: "Fecha fin";
+    }
+
+    .votaciones td:nth-of-type(4)::before {
+        content: "Estado";
+    }
+}

@@ -1,0 +1,28 @@
+{% extends "base.twig" %}
+
+{% block title %}Nueva Votación{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{domain}}/css/nuevaVotacion.css">
+{% endblock %}
+
+{% block content %}
+    <h2>Nueva Votación</h2>
+    <div class="opciones-votacion">
+        <div class="opcion">
+            <h3>Votación Simple</h3>
+            <p>Para votaciones de menos de 3 horas.</p>
+            <button onclick="window.location.href='{{domain}}/admin/votacion/nueva/simple'">Seleccionar</button>
+        </div>
+        <div class="opcion">
+            <h3>Votación Segura</h3>
+            <p>Recomendada para votaciones de más de 24 horas.</p>
+            <button onclick="window.location.href='{{domain}}/admin/votacion/nueva/segura'">Seleccionar</button>
+        </div>
+    </div>
+    <div class="info-diferencias">
+        <p>La votación simple almacena la clave privada en el ordenador del administrador.</p> 
+        <p>La votación segura, recomendada para votaciones de más de 24 horas, trocea la clave privada utilizando el algoritmo de Shamir's Secret Sharing y debe ser repartida entre los miembros de la mesa electoral.</p>
+    </div>
+{% endblock %}
+
