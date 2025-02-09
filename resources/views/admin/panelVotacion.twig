@@ -76,16 +76,27 @@
           </tr>
         </thead>
         <tbody>
-          {% for voter in censo %}
-          <tr data-voter-id="{{ voter.id }}">
-            <td>{{ voter.nombre }}</td>
-            <td>{{ voter.apellidos }}</td>
-            <td>{{ voter.email }}</td>
-            <td>
-              <button class="editVoterButton" data-voter-id="{{ voter.id }}">Editar</button>
-            </td>
-          </tr>
-          {% endfor %}
+        {% for voter in censo %}
+        <tr data-voter-id="{{ voter.id }}">
+          <td>{{ voter.nombre }}</td>
+          <td>{{ voter.apellidos }}</td>
+          <td>{{ voter.email }}</td>
+          <td>
+            <button class="editVoterButton"
+                    data-voter-id="{{ voter.id }}"
+                    data-nombre="{{ voter.nombre }}"
+                    data-apellidos="{{ voter.apellidos }}"
+                    data-email="{{ voter.email }}">
+              Editar
+            </button>
+            <button class="deleteVoterButton"
+                    data-voter-id="{{ voter.id }}"
+                    data-votacion-id="{{ votacion.id }}">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
         </tbody>
       </table>
     </div>
@@ -93,6 +104,10 @@
 </div>
 {% endblock %}
 {% block scripts %}
-<script src="{{ domain }}/js/panelVotacion.js"></script>
+<script src="{{ domain }}/js/panelVotacion/tabs.js"></script>
+<script src="{{ domain }}/js/panelVotacion/candidates.js"></script>
+<script src="{{ domain }}/js/panelVotacion/votacionConfig.js"></script>
+<script src="{{ domain }}/js/panelVotacion/censo.js"></script>
+<script src="{{ domain }}/js/panelVotacion/main.js"></script>
 <script src="{{ domain }}/js/sweetalert2.js"></script>
 {% endblock %}

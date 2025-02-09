@@ -211,5 +211,108 @@ class AdminApiController
         }
     }
 
+    // Método para agregar un votante a la votación
+    public function agregarVotante()
+    {
+        $this->checkAuth();
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->sendError("Método no permitido", 405);
+        }
+
+        $input = json_decode(file_get_contents('php://input'), true);
+
+        if (empty($input['votacion_id']) || empty($input['nombre']) || empty($input['apellidos']) || empty($input['email'])) {
+            $this->sendError("Parámetros insuficientes");
+        }
+
+        $votacion_id = $input['votacion_id'];
+        $nombre = trim($input['nombre']);
+        $apellidos = trim($input['apellidos']);
+        $email = trim($input['email']);
+
+        // Buscar el votante por email
+        $votante = $this->db->getVotanteByEmail($email);
+
+        if ($votante) {
+            // Si existe, actualizamos sus datos con la nueva información
+            $this->db->updateVotante($votante['id'], $nombre, $apellidos, $email);
+            $votante_id = $votante['id'];
+        } else {
+            // Si no existe, se crea un registro nuevo en la tabla votantes
+            $votante_id = $this->db->addVotante($nombre, $apellidos, $email);
+
+            if (!$votante_id) {
+                $this->sendError("Error al agregar votante");
+            }
+        }
+
+        // Se agrega la asociación en la tabla censo para la votación
+        $censoAdded = $this->db->addCensoEntry($votacion_id, $votante_id);
+
+        if ($censoAdded === false) {
+            $this->sendError("El votante ya está agregado a la votación", 409);
+        }
+
+        $this->sendResponse(['success' => true, 'votante_id' => $votante_id]);
+    }
+
+    // Método para editar los datos de un votante (afecta a todas las votaciones)
+    public function editarVotante()
+    {
+        $this->checkAuth();
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->sendError("Método no permitido", 405);
+        }
+
+        $input = json_decode(file_get_contents('php://input'), true);
+
+        if (empty($input['votante_id']) || empty($input['nombre']) || empty($input['apellidos']) || empty($input['email'])) {
+            $this->sendError("Parámetros insuficientes");
+        }
+
+        $votante_id = $input['votante_id'];
+        $nombre = trim($input['nombre']);
+        $apellidos = trim($input['apellidos']);
+        $email = trim($input['email']);
+
+        $result = $this->db->updateVotante($votante_id, $nombre, $apellidos, $email);
+
+        if ($result) {
+            $this->sendResponse(['success' => true, 'message' => 'Votante actualizado']);
+        } else {
+            $this->sendError("Error al actualizar votante");
+        }
+    }
+
+    // Método para eliminar la asociación de un votante a una votación
+    public function eliminarVotante()
+    {
+        $this->checkAuth();
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->sendError("Método no permitido", 405);
+        }
+
+        $input = json_decode(file_get_contents('php://input'), true);
+
+        if (empty($input['votacion_id']) || empty($input['votante_id'])) {
+            $this->sendError("Parámetros insuficientes");
+        }
+
+        $votacion_id = $input['votacion_id'];
+        $votante_id = $input['votante_id'];
+
+        $result = $this->db->removeVotanteFromVotacion($votacion_id, $votante_id);
+
+        if ($result) {
+            $this->sendResponse(['success' => true, 'message' => 'Votante eliminado de la votación']);
+        } else {
+            $this->sendError("Error al eliminar votante de la votación");
+        }
+    }
+
+
 }
 ?>

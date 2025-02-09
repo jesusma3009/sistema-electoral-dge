@@ -271,3 +271,13 @@ table tr:hover {
 #votacionDescription {
     text-align: center;
 }
+
+.deleteVoterButton {
+    background-color: red;
+    width: auto;
+}
+
+.editVoterButton{
+    background-color: orange;
+    width: auto;
+}

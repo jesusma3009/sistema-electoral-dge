@@ -145,8 +145,7 @@ class VotingDB extends Database
       OPERACIONES SOBRE LA TABLA votantes
     –––––––––––––––––––––––––––––––––––––*/
 
-    // Agregar un votante. Se asume que el email es único.
-    // Si el votante ya existe (por email), se devuelve su id.
+    // Agregar un votante a la base de datos
     public function addVotante($nombre, $apellidos, $email)
     {
         $sql = "INSERT INTO votantes (nombre, apellidos, email) VALUES (:nombre, :apellidos, :email)";
@@ -159,7 +158,7 @@ class VotingDB extends Database
             ]);
             return $this->db->lastInsertId();
         } catch (PDOException $e) {
-            // En caso de duplicado (violación de UNIQUE), se obtiene el id existente
+            // En caso de duplicado se obtiene el id existente
             if ($e->getCode() == 23000) {
                 $sql = "SELECT id FROM votantes WHERE email = :email";
                 $stmt = $this->db->prepare($sql);
@@ -172,7 +171,27 @@ class VotingDB extends Database
         }
     }
 
+    // Buscar un votante por email
+    public function getVotanteByEmail($email)
+    {
+        $sql = "SELECT * FROM votantes WHERE email = :email";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':email' => $email]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
+    // Actualizar los datos de un votante
+    public function updateVotante($id, $nombre, $apellidos, $email)
+    {
+        $sql = "UPDATE votantes SET nombre = :nombre, apellidos = :apellidos, email = :email WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([
+            ':nombre' => $nombre,
+            ':apellidos' => $apellidos,
+            ':email' => $email,
+            ':id' => $id
+        ]);
+    }
     /*–––––––––––––––––––––––––––––––––––
       OPERACIONES SOBRE LA TABLA censo
     –––––––––––––––––––––––––––––––––––––*/
@@ -196,6 +215,16 @@ class VotingDB extends Database
                 throw $e;
             }
         }
+    }
+
+    public function removeVotanteFromVotacion($votacion_id, $votante_id)
+    {
+        $sql = "DELETE FROM censo WHERE votacion_id = :votacion_id AND votante_id = :votante_id";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([
+            ':votacion_id' => $votacion_id,
+            ':votante_id' => $votante_id
+        ]);
     }
 
     // Obtener el listado de votantes (censo) para una votación dada, incluyendo datos personales

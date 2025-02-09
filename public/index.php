@@ -41,7 +41,15 @@ switch ($uri) {
         break;
     case '/admin/votacion/censo/agregar':
         require_once __DIR__ . '/../controllers/admin/AdminApiController.php';
-        // TODO
+        (new AdminApiController($container['twig']))->agregarVotante();
+        break;
+    case '/admin/votacion/censo/editar':
+        require_once __DIR__ . '/../controllers/admin/AdminApiController.php';
+        (new AdminApiController($container['twig']))->editarVotante();
+        break;
+    case '/admin/votacion/censo/eliminar':
+        require_once __DIR__ . '/../controllers/admin/AdminApiController.php';
+        (new AdminApiController($container['twig']))->eliminarVotante();
         break;
     case '/admin/votacion/censo/import':
         require_once __DIR__ . '/../controllers/admin/AdminApiController.php';
