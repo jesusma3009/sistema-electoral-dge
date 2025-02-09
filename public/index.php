@@ -53,11 +53,15 @@ switch ($uri) {
         break;
     case '/admin/votacion/censo/import':
         require_once __DIR__ . '/../controllers/admin/AdminApiController.php';
-        // TODO
+        (new AdminApiController($container['twig']))->importarCenso();
         break;
     case '/admin/votacion/candidatos/agregar':
         require_once __DIR__ . '/../controllers/admin/AdminApiController.php';
         (new AdminApiController($container['twig']))->agregarCandidato();
+        break;
+    case '/admin/votacion/vista-previa/datos':
+        require_once __DIR__ . '/../controllers/admin/AdminApiController.php';
+        (new AdminApiController($container['twig']))->datosVistaPrevia();
         break;
     default:
         if (preg_match('#^/admin/votacion/candidatos/editar/(.+)$#', $uri, $matches)) {

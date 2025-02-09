@@ -281,3 +281,51 @@ table tr:hover {
     background-color: orange;
     width: auto;
 }
+
+/* Estilos para el panel de Vista Previa y papeleta */
+#vista-previa {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.ballot {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    background: #fefefe;
+    margin-top: 20px;
+}
+
+.ballot h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.ballot-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.ballot-option input[type="radio"] {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.ballot-option label {
+    flex: 1;
+    cursor: pointer;
+}
+
+/* Campo de texto para el voto nulo */
+.nulo-extra {
+    margin-left: 10px;
+    flex: 2;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}

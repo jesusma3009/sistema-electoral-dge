@@ -312,6 +312,92 @@ class AdminApiController
             $this->sendError("Error al eliminar votante de la votación");
         }
     }
+    public function importarCenso()
+    {
+        $this->checkAuth();
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->sendError("Método no permitido", 405);
+        }
+
+        $input = json_decode(file_get_contents('php://input'), true);
+        if (empty($input['votacion_id'])) {
+            $this->sendError("Votación no identificada");
+        }
+        if (empty($input['voters']) || !is_array($input['voters'])) {
+            $this->sendError("No se proporcionaron los datos del CSV");
+        }
+
+        $votacion_id = $input['votacion_id'];
+        $nuevos = [];
+        foreach ($input['voters'] as $v) {
+            // Validar que existan las columnas requeridas
+            if (empty($v['nombre']) || empty($v['apellidos']) || empty($v['email'])) {
+                continue; // omitir líneas incompletas
+            }
+            $nombre = trim($v['nombre']);
+            $apellidos = trim($v['apellidos']);
+            $email = trim($v['email']);
+
+            // Buscar si ya existe el votante por email
+            $votante = $this->db->getVotanteByEmail($email);
+            if ($votante) {
+                // Actualizamos la información del votante
+                $this->db->updateVotante($votante['id'], $nombre, $apellidos, $email);
+                $votante_id = $votante['id'];
+            } else {
+                // Creamos el votante
+                $votante_id = $this->db->addVotante($nombre, $apellidos, $email);
+                if (!$votante_id) {
+                    continue;
+                }
+            }
+            // Agregar la asociación en la tabla censo
+            // Si el votante ya estaba en la votación, se devuelve false
+            $censoAdded = $this->db->addCensoEntry($votacion_id, $votante_id);
+            if ($censoAdded === false) {
+                continue; // Si ya existe, se omite
+            }
+            // Agregamos a la lista de nuevos para enviar de respuesta
+            $nuevos[] = [
+                'votante_id' => $votante_id,
+                'nombre' => $nombre,
+                'apellidos' => $apellidos,
+                'email' => $email
+            ];
+        }
+
+        $this->sendResponse(['success' => true, 'message' => 'CSV importado correctamente', 'nuevos' => $nuevos]);
+    }
+
+    // Vista previa de los datos de la votación
+    public function datosVistaPrevia()
+    {
+        $this->checkAuth();
+
+        // Obtiene el id de la votación vía GET, en lugar de la sesión
+        if (empty($_GET['votacion_id'])) {
+            $this->sendError("Votación no identificada", 400);
+        }
+        $votacion_id = $_GET['votacion_id'];
+
+        $votacion = $this->db->getVotacionById($votacion_id);
+        if (!$votacion) {
+            $this->sendError("Votación no encontrada", 404);
+        }
+
+        $candidatos = $this->db->getCandidatosByVotacion($votacion_id);
+
+        $data = [
+            'votacion' => [
+                'id' => $votacion['id'],
+                'nombre' => $votacion['nombre'],
+                'votoNulo' => (bool) $votacion['votoNulo'],
+                'votoBlanco' => (bool) $votacion['votoBlanco']
+            ],
+            'candidatos' => $candidatos
+        ];
+        $this->sendResponse($data);
+    }
 
 
 }

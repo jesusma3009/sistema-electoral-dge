@@ -230,7 +230,7 @@ class VotingDB extends Database
     // Obtener el listado de votantes (censo) para una votación dada, incluyendo datos personales
     public function getCensoByVotacion($votacion_id)
     {
-        $sql = "SELECT c.id, v.nombre, v.apellidos, v.email, c.ha_votado 
+        $sql = "SELECT c.id, v.nombre, v.apellidos, v.email, c.ha_votado, c.votante_id 
                 FROM censo c
                 JOIN votantes v ON c.votante_id = v.id
                 WHERE c.votacion_id = :votacion_id";

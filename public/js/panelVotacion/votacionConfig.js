@@ -10,7 +10,21 @@
       if (saveVotacionConfigButton) {
         saveVotacionConfigButton.addEventListener("click", function () {
           var votoNulo = document.getElementById("votoNulo").checked;
-          var votoBlanco = document.getElementById("votoBlanco").checked;
+            var votoBlanco = document.getElementById("votoBlanco").checked;
+            var fechaFinInput = document.getElementById("fecha_fin").value.trim();
+            if (!fechaFinInput) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Falta Fecha',
+              text: 'Debe introducir la fecha de cierre.'
+            });
+            return;
+            }
+            var fechaFin = fechaFinInput;
+            if (!fechaFin.includes(':')) {
+            // Si no se especifican los minutos, agregar ":00"
+            fechaFin += ":00";
+            }
           var fechaFin = document.getElementById("fecha_fin").value.trim();
           var configData = {
             votacion_id: votacionId,

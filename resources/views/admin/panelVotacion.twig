@@ -10,6 +10,7 @@
     <ul>
       <li data-tab="votacion" class="active">Votación</li>
       <li data-tab="censo">Censo</li>
+      <li data-tab="vista-previa">Vista previa</li>
     </ul>
   </aside>
   <!-- Contenido principal según pestaña (derecha) -->
@@ -62,6 +63,9 @@
     <!-- Panel de Censo -->
     <div id="censo" class="panel-panel">
       <h2>Censo</h2>
+      <div id="censoInfo">
+          <p>Total de personas en el censo: {{ censo|length }}</p>
+      </div>
       <div class="panel-actions">
         <button id="importCsvButton">Importar CSV</button>
         <button id="addVoterButton">Agregar Persona</button>
@@ -77,20 +81,20 @@
         </thead>
         <tbody>
         {% for voter in censo %}
-        <tr data-voter-id="{{ voter.id }}">
+        <tr data-voter-id="{{ voter.votante_id }}">
           <td>{{ voter.nombre }}</td>
           <td>{{ voter.apellidos }}</td>
           <td>{{ voter.email }}</td>
           <td>
             <button class="editVoterButton"
-                    data-voter-id="{{ voter.id }}"
+                    data-voter-id="{{ voter.votante_id }}"
                     data-nombre="{{ voter.nombre }}"
                     data-apellidos="{{ voter.apellidos }}"
                     data-email="{{ voter.email }}">
               Editar
             </button>
             <button class="deleteVoterButton"
-                    data-voter-id="{{ voter.id }}"
+                    data-voter-id="{{ voter.votante_id }}"
                     data-votacion-id="{{ votacion.id }}">
               Eliminar
             </button>
@@ -100,6 +104,10 @@
         </tbody>
       </table>
     </div>
+    <div id="vista-previa" class="panel-panel">
+      <!-- La papeleta se genera dinámicamente -->
+      <div id="ballotContainer"></div>
+    </div>
   </section>
 </div>
 {% endblock %}
@@ -108,6 +116,7 @@
 <script src="{{ domain }}/js/panelVotacion/candidates.js"></script>
 <script src="{{ domain }}/js/panelVotacion/votacionConfig.js"></script>
 <script src="{{ domain }}/js/panelVotacion/censo.js"></script>
+<script src="{{ domain }}/js/panelVotacion/preview.js"></script>
 <script src="{{ domain }}/js/panelVotacion/main.js"></script>
 <script src="{{ domain }}/js/sweetalert2.js"></script>
 {% endblock %}
